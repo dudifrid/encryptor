@@ -1,0 +1,58 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			Algorithm Schema
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="comment" type="xsd:string"/>
+
+	<xsd:element name="algorithm" type="Algorithm"/>
+
+	<xsd:simpleType name="Scope">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="file"/>
+			<xsd:enumeration value="dirSync"/>
+			<xsd:enumeration value="dirAsync"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Family">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="double"/>
+			<xsd:enumeration value="split"/>
+			<xsd:enumeration value="reverse"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="BasicAlgorithmName">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="caesar"/>
+			<xsd:enumeration value="mult"/>
+			<xsd:enumeration value="xor"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="BasicAlgorithm">
+		<xsd:sequence>
+			<xsd:element name="name" type="BasicAlgorithmName"/>
+			<xsd:element name="key" type="xsd:byte"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="Algorithm">
+		<xsd:sequence>
+			<xsd:element name="toEncrypt" type="xsd:boolean"/>
+			<xsd:element name="scope" type="Scope"/>
+			<xsd:element name="family" type="Family"/>
+			<xsd:element name="first" type="BasicAlgorithm"/>
+			<xsd:element name="second" type="BasicAlgorithm"
+				minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+</xsd:schema>

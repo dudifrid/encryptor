@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<goal>encryption</goal>
+	<scope>dirAsync</scope>
+	<family>double</family>
+	<first>caesar</first>
+	<second>mult</second>
+	<keyPath>key.bin</keyPath>
+</configuration>
+
+
+
+<algorithm>
+	<toEncrypt>true</toEncrypt>
+	<scope>dirAsync</scope>
+	<family>double</family>
+	<first>Caesar</first>
+	<second>Mult</second>
+	<keyPath>key.bin</keyPath>
+</algorithm>
+
+
+<algorithm>
+	<toEncrypt>true</toEncrypt>
+	<scope>dirAsync</scope>
+	<family>double</family>
+	<first>
+		<name>Caesar</name>
+		<key>2</key>
+	</first>
+	<second>
+		<name>Mult</name>
+		<key>100</key>
+	</second>
+</algorithm>
