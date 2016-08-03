@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<goal>encryption</goal>
+	<scope>dirAsync</scope>
+	<family>double</family>
+	<first>caesar</first>
+	<second>mult</second>
+</configuration>

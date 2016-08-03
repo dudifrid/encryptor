@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<status>
+	<time>4</time>
+	<exception>IOException</exception>
+	
+</status>
+
+
+
+
+<status value="success">
+	<time>3.2</time>
+</status>
+
+<status value="failure">
+
+</status>
