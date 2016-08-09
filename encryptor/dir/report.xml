@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reports>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>.\dir\report.xml</name>
+        <status>SUCCESS</status>
+        <time>16000000</time>
+    </report>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>.\dir\report.xml</name>
+        <status>SUCCESS</status>
+        <time>16000000</time>
+    </report>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>.\dir\report.xml</name>
+        <status>SUCCESS</status>
+        <time>16000000</time>
+    </report>
+</reports>

@@ -1,0 +1,56 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			Algorithm Schema
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="comment" type="xsd:string" />
+
+	<xsd:element name="configuration" type="Configuration" />
+
+	<xsd:complexType name="Configuration">
+		<xsd:sequence>
+			<xsd:element name="goal" type="Goal" />
+			<xsd:element name="scope" type="Scope" />
+			<xsd:element name="family" type="Family" />
+			<xsd:element name="first" type="Algo" />
+			<xsd:element name="second" type="Algo" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="Goal">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="encryption" />
+			<xsd:enumeration value="decryption" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Scope">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="file" />
+			<xsd:enumeration value="dirSync" />
+			<xsd:enumeration value="dirAsync" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="Family">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="double" />
+			<xsd:enumeration value="split" />
+			<xsd:enumeration value="reverse" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="Algo">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="caesar" />
+			<xsd:enumeration value="mult" />
+			<xsd:enumeration value="xor" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+</xsd:schema>

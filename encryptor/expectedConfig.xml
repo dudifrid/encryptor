@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <family>DOUBLE</family>
+    <first>CAESAR</first>
+    <goal>DECRYPTION</goal>
+    <second>XOR</second>
+    <sync>SYNC</sync>
+    <type>DIR</type>
+</configuration>

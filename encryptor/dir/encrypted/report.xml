@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reports>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>.\dir\encrypted\file2</name>
+        <status>SUCCESS</status>
+        <time>0</time>
+    </report>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>.\dir\encrypted\file2</name>
+        <status>SUCCESS</status>
+        <time>0</time>
+    </report>
+</reports>

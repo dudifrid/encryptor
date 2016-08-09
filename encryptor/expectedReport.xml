@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<reports>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>file1</name>
+        <status>FAILURE</status>
+        <exceptionName>java.io.FileNotFoundException</exceptionName>
+        <exceptionMessage>The required file was not found</exceptionMessage>
+        <myStackTrace>
+            <stackTrace>encryptorTests.MarshallingTest.testReport(MarshallingTest.java:54)</stackTrace>
+            <stackTrace>sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</stackTrace>
+            <stackTrace>sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</stackTrace>
+            <stackTrace>sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</stackTrace>
+            <stackTrace>java.lang.reflect.Method.invoke(Method.java:497)</stackTrace>
+            <stackTrace>org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:50)</stackTrace>
+            <stackTrace>org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)</stackTrace>
+            <stackTrace>org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:47)</stackTrace>
+            <stackTrace>org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:325)</stackTrace>
+            <stackTrace>org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:78)</stackTrace>
+            <stackTrace>org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:57)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.run(ParentRunner.java:363)</stackTrace>
+            <stackTrace>org.junit.runners.Suite.runChild(Suite.java:128)</stackTrace>
+            <stackTrace>org.junit.runners.Suite.runChild(Suite.java:27)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.run(ParentRunner.java:363)</stackTrace>
+            <stackTrace>org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)</stackTrace>
+            <stackTrace>org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)</stackTrace>
+            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)</stackTrace>
+            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)</stackTrace>
+            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)</stackTrace>
+            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)</stackTrace>
+        </myStackTrace>
+    </report>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>file2</name>
+        <status>SUCCESS</status>
+        <time>23298</time>
+    </report>
+    <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">
+        <name>file3</name>
+        <status>SUCCESS</status>
+        <time>9438948</time>
+    </report>
+</reports>
