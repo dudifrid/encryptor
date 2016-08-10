@@ -7,14 +7,11 @@ import org.junit.runners.Suite;
    CaesarEncdecTest.class,
    MultEncdecTest.class,
    XorEncdecTest.class,
-   
    DoubleEncdecTest.class,
    ReverseEncdecTest.class,
    SimpleEncdecTest.class,
    SplitEncdecTest.class,
-   
    EncdecFileTest.class,
-   
    MarshallingTest.class
 })
 public class JunitTestSuite {   

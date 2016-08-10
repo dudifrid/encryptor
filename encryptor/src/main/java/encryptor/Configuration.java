@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @XmlRootElement
+@XmlType(propOrder={"goal","type","sync","family","first","second"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Data public class Configuration {
 	@NonNull private Goal goal;
-	@NonNull private Sync sync;
 	@NonNull private Type type;
+	@NonNull private Sync sync;
 	@NonNull private Family family;
 	@NonNull private Algo first;
 	private Algo second;

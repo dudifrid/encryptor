@@ -1,13 +1,7 @@
 package encryptorTests;
 
-import org.apache.logging.log4j.core.appender.SyslogAppender;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-import encryptor.CaesarEncdec;
 import encryptor.XorEncdec;
-
 import static junit.framework.Assert.*;
 
 public class XorEncdecTest {

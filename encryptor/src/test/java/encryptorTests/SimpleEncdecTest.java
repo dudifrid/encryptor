@@ -1,15 +1,9 @@
 package encryptorTests;
 
-import org.apache.logging.log4j.core.appender.SyslogAppender;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.mockito.Mock;
-
 import encryptor.*;
-
 import static junit.framework.Assert.*;
+
 
 public class SimpleEncdecTest {
 	
@@ -19,7 +13,7 @@ public class SimpleEncdecTest {
 	
 	
 	private CaesarEncdec caesarEncdec = new CaesarEncdec(key);
-	private SimpleEncdec<Encdec> simpleEncdec = new SimpleEncdec<Encdec>(caesarEncdec, caesarEncdec);
+	private SimpleEncdec<Encdec> simpleEncdec = new SimpleEncdec<Encdec>(caesarEncdec);
 
 	
 	

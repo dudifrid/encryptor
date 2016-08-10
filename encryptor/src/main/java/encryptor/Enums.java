@@ -1,13 +1,5 @@
 package encryptor;
 
-import java.lang.System;
-
-import static encryptor.Main.*;
-
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.security.GeneralSecurityException;
-
 public class Enums {
 	
 	public static enum Type{
@@ -17,12 +9,6 @@ public class Enums {
 	public static enum Sync{
 		SYNC, ASYNC
 	}
-
-	/*
-	public static enum Scope{
-		FILE, DIR_SYNC, DIR_ASYNC
-	}
-	*/
 
 	public static enum Family{
 		SIMPLE, DOUBLE, SPLIT, REVERSE

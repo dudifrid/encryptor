@@ -3,11 +3,12 @@ package encryptor;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 @AllArgsConstructor
-@Data public class Key implements Serializable{
-	private byte firstKey;
-	private byte secondKey;
+public class Key implements Serializable{
+	@Getter private byte firstKey;
+	@Getter private byte secondKey;
+	private static final long serialVersionUID = 1L;
 
 }

@@ -1,42 +1,27 @@
 package encryptor;
 
-import javax.xml.bind.JAXBElement;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import encryptor.EncdecState.State;
 import static encryptor.Enums.*;
-import static encryptor.Main.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintStream;
-import java.lang.Object;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.sql.Date;
 
 
 /* 
- * encdecFILEScope(encryption, source) = calculates dest, and does some more stuff (such as prints etc.). To be applied when scope == Scope.FILE
- * encdecASYNC_DIRScope(encryption, source) = just the same, but applied when scope == Scope.ASYNC_DIR
- * encdecSYNC_DIRScope(encryption, source) = just the same, but applied when scope == Scope.SYNC_DIR
+ * encdecFILE(encryption, source) = calculates dest, and does some more stuff (such as prints etc.). To be applied when scope == Scope.FILE
+ * encdecDIR(encryption, source) = just the same, but applied when scope == Scope.ASYNC_DIR
  * encdecFile(encryption, source, dest) = encdecs file according
- * encdecByte(encryption, source, dest)
  * 
  * DO NOT CONFUSE between encdecFILE and encdecFile
  * 
@@ -49,7 +34,7 @@ import java.sql.Date;
 @Data
 public class EncdecFile{
 
-
+	private EncdecState state = new EncdecState();
 	private ReportAbstract report;
 	private static final Logger logger = LogManager.getLogger(EncdecFile.class);
 	private Reports reports = new Reports();
@@ -104,10 +89,6 @@ public class EncdecFile{
 		encdecFILE(encryption,s.getName());
 	}
 
-	
-	public void printSummary(String goal){
-
-	}
 
 	public void encdecFILE(boolean encryption, String source){
 		String dest = getDestFILE(encryption, source);
@@ -127,25 +108,11 @@ public class EncdecFile{
 		else
 			System.out.println("Operation failed. Reason:"+report.getExceptionMessage());
 			
-		
-		//printSummary(goal);
-	}
-
-	@Data
-	public class EncdecTask implements Runnable{
-		final private boolean encryption;
-		@NonNull private String source;
-		@NonNull private String target;
-
-		@Override
-		public void run() {
-			EncdecFile.this.encdecFile(encryption, source, target);
-		}
-
 	}
 
 
-	public void encdecDIR(boolean async, boolean encryption, String dirPath) throws Exception{
+
+	public void encdecDIR(boolean sync, boolean encryption, String dirPath) throws Exception{
 		Instant before = clock.instant();
 		File dir = new File(dirPath);
 		File[] files = dir.listFiles();
@@ -154,16 +121,17 @@ public class EncdecFile{
 			newDir = encryption ? dirPath + "\\encrypted" : dirPath + "\\decrypted";
 			new File(newDir).mkdir();
 
-			if (async){
+			
+			if (sync){
 				for (File file : files) {
 					if (file.isFile() && !file.getName().equals("key.bin"))
-						exec.submit(new EncdecTask(encryption, file.getPath(), newDir +"\\"+ file.getName())).get();
+						encdecFile(encryption, file.getPath(), newDir +"\\"+ file.getName());
 				}
 			}
 			else{
 				for (File file : files) {
 					if (file.isFile() && !file.getName().equals("key.bin"))
-						encdecFile(encryption, file.getPath(), newDir +"\\"+ file.getName());
+						exec.submit(()->encdecFile(encryption, file.getPath(), newDir +"\\"+ file.getName())).get();
 				}
 			}
 
@@ -177,20 +145,8 @@ public class EncdecFile{
 		String goal = encryption ? "encryption" : "decryption";
 		System.out.println("The whole "+goal+" operation took "+time+" nanoseconds.");
 		
-		//else {
-		//}
 
 	}
-
-	public void encdecDIR_ASYNC(boolean encryption, String dirPath) throws Exception{
-		encdecDIR(true, encryption, dirPath);
-	}
-
-
-	public void encdecDIR_SYNC(boolean encryption, String dirPath) throws Exception{
-		encdecDIR(false, encryption, dirPath);
-	}
-
 
 
 	public void encdecFile(boolean encryption, InputStream in, PrintStream out) throws IOException{
@@ -212,8 +168,9 @@ public class EncdecFile{
 
 
 	public void encdecFile(boolean encryption, String source, String dest) {
-		//InputStream in = null;
-		//FileOutputStream out = null;
+		
+		state.setState(State.DURING);
+		
 		InputStream in;
 		PrintStream out;
 
@@ -233,16 +190,19 @@ public class EncdecFile{
 			encdecFile(encryption, in, out);
 			Instant after = clock.instant();
 			long time = Duration.between(before, after).toNanos();
+			report = new Report();
 			report.setAll(source, Status.SUCCESS, time, null, null, null);
 			reports.getReports().add(report);
-			logger.info("Operation succeded. Time elapsed: "+time);
+			logger.info("Operation succeeded. Time elapsed: "+time);
+			state.setState(State.AFTER);
 
 		} catch (Exception e){
 			report.setAll(source, Status.FAILURE, null, e.getClass().getName(), e.getMessage(), e.getStackTrace());
 			reports.getReports().add(report);
 			logger.error("Error occured. Reason: "+e.getMessage());
 		}
-
+		
+		
 	}
 
 }

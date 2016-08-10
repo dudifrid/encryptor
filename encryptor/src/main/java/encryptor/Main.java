@@ -1,33 +1,26 @@
 package encryptor;
 
 import static encryptor.Enums.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectInputStream.GetField;
 import java.io.ObjectOutputStream;
 import java.util.Random;
 import java.util.Scanner;
-
-import javax.swing.JComboBox.KeySelectionManager;
-
-import lombok.Getter;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.Socket;
 
 
 public class Main {
 
+	//scanner
 	private static Scanner in;
-
+	
+	//configuration
 	private static Sync sync = Sync.SYNC;
 	private static Type type = Type.FILE;
-	//private static Scope scope=Scope.FILE;
 	private static Family family=Family.DOUBLE;
 	private static Algo first=Algo.CAESAR;
 	private static Algo second=Algo.CAESAR;
@@ -35,14 +28,17 @@ public class Main {
 	private static Config config =Config.DEFAULT;
 	private static Export export = Export.EXPORT; 
 
+	//paths
 	private static String filePath;
 	private static String dirPath;
 	private static String keyPath;
 	private static String configPath; 
-	private static byte firstKey;
-	private static byte secondKey;
 	private static Encdec firstInstance;
 	private static Encdec secondInstance;
+	
+	//keys
+	private static byte firstKey;
+	private static byte secondKey;
 
 	//sets the value to the *field* obj, according to the user's input
 	//I found it preferable to use this function, in order to avoid four-folds code duplication
@@ -167,8 +163,8 @@ public class Main {
 						continue;
 					}
 
-					Method isType = File.class.getMethod("is"+Type, null);//for example, isType="isFile"
-					if (!(boolean)isType.invoke(file, null)){
+					Method isType = File.class.getMethod("is"+Type);//for example, isType="isFile"
+					if (!(Boolean)isType.invoke(file)){
 						System.err.println("Error: Not a "+type);
 						continue;
 					}
@@ -185,7 +181,7 @@ public class Main {
 	
 
 
-	public static Class toClass(Object obj) throws Exception{
+	public static Class<?> toClass(Object obj) throws Exception{
 		if (obj==null)
 			return null;
 		String classNameInLowerCase = obj.toString().toLowerCase();
@@ -210,33 +206,13 @@ public class Main {
 	}
 
 	public static void deserializeKey() throws Exception{
-		FileInputStream fileIn = new FileInputStream(keyPath);
-		ObjectInputStream in = new ObjectInputStream(fileIn);
+		FileInputStream fileInputStream = new FileInputStream(keyPath);
+		ObjectInputStream in = new ObjectInputStream(fileInputStream);
 		Key key = (Key) in.readObject();
 		firstKey = key.getFirstKey();
 		secondKey = key.getSecondKey();
 		in.close();
-		fileIn.close();
-		/*
-		try
-		{
-			FileInputStream fileIn = new FileInputStream(keyPath);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			Key key = (Key) in.readObject();
-			firstKey = key.getFirstKey();
-			secondKey = key.getSecondKey();
-			in.close();
-			fileIn.close();
-		}catch(IOException e)
-		{
-			e.printStackTrace();
-			return;
-		}catch(ClassNotFoundException e)
-		{
-			e.printStackTrace();
-			return;
-		}
-		*/
+		fileInputStream.close();
 	}
 
 
@@ -248,54 +224,24 @@ public class Main {
 		setKeys();
 		
 		firstInstance = (Encdec) toClass(first).getConstructor(byte.class).newInstance(firstKey);
-		secondInstance = (Encdec) toClass(second).getConstructor(byte.class).newInstance(secondKey);
+		
+		if (!oneAlgo())
+			secondInstance = (Encdec) toClass(second).getConstructor(byte.class).newInstance(secondKey);
 
-
-		//System.out.println("first: "+firstInstance.getKey()+" second: "+secondInstance.getKey());
-
-		Encdec encdec = (Encdec) toClass(family).getConstructor(Encdec.class, Encdec.class).newInstance(firstInstance, secondInstance);
+		Encdec encdec;
+		
+		if (oneAlgo())
+			encdec = (Encdec) toClass(family).getConstructor(Encdec.class).newInstance(firstInstance);
+		else
+			encdec = (Encdec) toClass(family).getConstructor(Encdec.class, Encdec.class).newInstance(firstInstance, secondInstance);
 		EncdecFile encdecFile = new EncdecFile(encdec);
 
 
 
-
-		/*
-		Class[] types = {boolean.class, String.class};
-		Object[] args = {encryption, filePath};
-		toClass(family).getMethod("encdec"+scope.toString(), types).invoke(encdec, args);
-		 */
-
-
-
-		switch (type){
-			case FILE:
-				encdecFile.encdecFILE(encryption, filePath);
-				break;
-			case DIR:
-				switch (sync){
-				case SYNC:
-					encdecFile.encdecDIR_SYNC(encryption, dirPath);
-					break;
-				case ASYNC:
-					encdecFile.encdecDIR_ASYNC(encryption, dirPath);
-					break;
-				}
-		}
-		
-		/*
-		switch (scope){
-		case FILE:
-			encdecFile.encdecFILE(encryption, filePath);
-			break;
-		case DIR_ASYNC:
-			encdecFile.encdecDIR_SYNC(encryption, dirPath);
-			break;
-		case DIR_SYNC:
-			encdecFile.encdecDIR_SYNC(encryption, dirPath);
-			break;
-		}*/
-
-
+	if (type==Type.FILE)
+		encdecFile.encdecFILE(encryption, filePath);
+	else
+		encdecFile.encdecDIR(sync == Sync.SYNC,encryption, dirPath);
 
 	}
 
@@ -324,6 +270,7 @@ public class Main {
 		if (oneAlgo()){
 			System.out.println("Please choose an algorithm to be based upon:");
 			first = (Algo) setValue(first);
+			second = null;
 		}
 		else{
 			System.out.println("You've chosen an algorithm which is based upon two algorithms.");
@@ -351,7 +298,7 @@ public class Main {
 		{
 			System.out.println("Please enter a path to export this configuration to.");
 			configPath = setPath("file", "configuration",false);
-			Configuration config = new Configuration(goal, sync, type, family, first, second);
+			Configuration config = new Configuration(goal, type, sync, family, first, second);
 			Marshalling.exportXML(configPath, config);
 		}
 

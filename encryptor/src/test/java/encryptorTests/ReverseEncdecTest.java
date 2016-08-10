@@ -1,14 +1,8 @@
 package encryptorTests;
 
-import org.apache.logging.log4j.core.appender.SyslogAppender;
-import org.junit.Before;
+
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.mockito.Mock;
-
 import encryptor.*;
-
 import static junit.framework.Assert.*;
 
 public class ReverseEncdecTest {
@@ -19,7 +13,7 @@ public class ReverseEncdecTest {
 	
 	
 	private CaesarEncdec caesarEncdec = new CaesarEncdec(key);
-	private ReverseEncdec<Encdec> reverseEncdec = new ReverseEncdec<Encdec>(caesarEncdec, caesarEncdec);
+	private ReverseEncdec<Encdec> reverseEncdec = new ReverseEncdec<Encdec>(caesarEncdec);
 
 	
 	

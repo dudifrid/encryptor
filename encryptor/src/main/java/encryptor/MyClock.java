@@ -1,10 +1,8 @@
 package encryptor;
 
 import java.time.Clock;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.util.TimeZone;
 
 import lombok.NoArgsConstructor;
 
@@ -13,7 +11,6 @@ public class MyClock extends Clock{
 	
 	@Override
 	public Clock withZone(ZoneId zone) {
-		//return TimeZone.getTimeZone(zone);
 		return null;
 	}
 	

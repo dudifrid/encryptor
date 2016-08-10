@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <configuration>
-    <goal>DECRYPTION</goal>
-    <type>DIR</type>
+    <goal>ENCRYPTION</goal>
+    <type>FILE</type>
     <sync>SYNC</sync>
-    <family>DOUBLE</family>
+    <family>SIMPLE</family>
     <first>CAESAR</first>
-    <second>XOR</second>
 </configuration>

@@ -1,16 +1,11 @@
 package encryptor;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-@Data 
-//public class DoubleEncdec <S extends Encdec, T extends Encdec> extends Encdec{
-public class DoubleEncdec <S extends Encdec,T extends Encdec> extends Encdec{
 
-//public class DoubleEncdec implements EncdecInterface{
-	
-	//@NonNull private EncdecInterface first;
-	//@NonNull private EncdecInterface second;
+@AllArgsConstructor
+public class DoubleEncdec <S extends Encdec,T extends Encdec> extends Encdec{
 
 	
 	

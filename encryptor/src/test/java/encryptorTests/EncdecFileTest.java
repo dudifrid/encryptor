@@ -5,30 +5,15 @@ import java.nio.file.Paths;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-
-import static org.mockito.Mockito.when;
 import java.time.Instant;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
-
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.*;
-
-import org.mockito.internal.matchers.Any.*;
-
 import encryptor.Encdec;
 import encryptor.EncdecFile;
-import encryptor.Enums;
-import encryptor.Report;
+import encryptor.EncdecState;
+import encryptor.EncdecState.State;
 import encryptor.ReportAbstract;
-
-import javax.net.ssl.SSLEngineResult.Status;
-
-import java.io.ByteArrayInputStream;
+import encryptor.StateObserver;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,51 +21,24 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
-import java.nio.file.ReadOnlyFileSystemException;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Clock;
-
-import org.apache.logging.log4j.core.util.FileUtils;
-
-import static encryptor.Encdec.*;
-import static encryptor.Enums.*;
 import static junit.framework.Assert.*;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-
-import junit.framework.Assert;
-import lombok.Generated;
 
 
 public class EncdecFileTest {
 
-	
-	private static final int KB = 1000;
-	private static final int MB = KB*KB;
-
 	@ClassRule public static TemporaryFolder tempFolder = new TemporaryFolder();
-
-	//@InjectMocks private static EncdecFile encdecFile; 
-
-	//	@Mock private static Encdec encdec;
-	//	@Mock private static Clock clock;
-	//	@Mock private static ReportAbstract report;
 	
 	public static final String logName = "report.log";
+	public StateObserver observer;
 
 	public Encdec encdec = mock(Encdec.class);
 	public Clock clock = mock(Clock.class);
@@ -109,6 +67,9 @@ public class EncdecFileTest {
 
 	@Before
 	public void setUp() throws Exception{
+		
+		
+		
 
 		//setup encdec 
 		byte a = (byte) 0;
@@ -128,58 +89,60 @@ public class EncdecFileTest {
 		second = first.plusSeconds(1);
 		third = second.plusSeconds(1);
 		fourth = third.plusSeconds(1);
+		
+		reset(clock);
 		when(clock.instant()).thenReturn(first, second, third, fourth);
-
-
+		
+		
+		resetFile(logName);
+		
+		
 
 		//setup report
 		//doNothing().when(report).setAll(anyString(), Enums.Status.SUCCESS, any(Long.class), null, null,null);
-		doNothing().when(report).setAll(any(), any(), any(), any(), any(),any());
-
-
-		encdecFile = new EncdecFile(encdec, report, clock);
-
 		//doNothing().when(report).setAll(any(), any(), any(), any(), any(),any());
+
+		
+		
+		
+		observer = new StateObserver(State.BEFORE, State.BEFORE);
+		EncdecState state = new EncdecState();
+		state.addObserver(observer);
+		//encdecFile.setState(state);
+		
+
 
 		//spying
 		//when(spy(EncdecFile.class).getDestFILE(anyBoolean(), anyString())).thenReturn("");
 		//doNothing().when(spy(EncdecFile.class)).encdecFile(anyBoolean(), anyString(), anyString());
 
-		//when(printStreamBadMock.write(anyInt())).th
 		
 		
 		
-		//doThrow(new IOException()).when(printStreamBadMock).write(anyInt());
 		doThrow(new IOException()).when(inputStreamBadMock).read();
 		when(inputStreamBadMock.available()).thenReturn(3);
-
-	}
-	
-	//important before each method. Otherwise, the order of the methods impacts the clock behavior, and thus, makes the code some unclear 
-	public void resetClock(){
-		//reset(clock);
-		when(clock.instant()).thenReturn(first, second, third, fourth);
+		
+		
+		
+		encdecFile = new EncdecFile(encdec, report, clock);
+		
+		encdecFile.setState(state);
+		encdecFile.setClock(clock);
+		
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream err = new ByteArrayOutputStream();
+		
+		System.setOut(new PrintStream(out));
+		System.setErr(new PrintStream(err));
 		
 	}
+
 	
-	
-	/*
-	@Test
-	public void testClockReset(){
-		System.out.println("first =        "+first);
-		System.out.println("Please notice: "+clock.instant());
-		resetClock();
-		System.out.println("Please notice: "+clock.instant());
-	}*/
 	
 	public static void resetFile(String fileName) throws Exception{
 		FileOutputStream writer = new FileOutputStream(fileName);
 		writer.close();
-	}
-	
-	public void resetClockAndLog() throws Exception{
-		resetClock();
-		resetFile(logName);
 	}
 	
 	
@@ -189,41 +152,13 @@ public class EncdecFileTest {
 		final File file = tempFolder.newFile(fileName);
 		PrintStream filePS = new PrintStream(file);
 
-		byte[] inputBytes = new byte[KB];
-
-
-		for (int i=0; i<KB; i++)
-			inputBytes[i]=(byte)value;
-
-		ByteArrayInputStream bt = new ByteArrayInputStream(inputBytes);
-
-		//making 3MB files. The iterations were chosen to maximize efficiency
-		for (int i=0;i<3; i++){
+		for (int i=0;i<3; i++)
 			filePS.write(value);
-			//	filePS.flush();
-		}
-
 
 		filePS.close();
-
-	}
-/*
-	ByteArrayOutputStream out = new ByteArrayOutputStream();
-	ByteArrayOutputStream err = new ByteArrayOutputStream();
-
-	
-	@Before
-	public void setSystemOut(){
-		System.setOut(new PrintStream(out));
 	}
 
-	@Before
-	public void setSystemErr(){
-		System.setErr(new PrintStream(err));
-	}
-	 */
-
-	
+		
 	
 	public static String readContent(String fileName) throws Exception{
 		return new String(Files.readAllBytes(Paths.get(fileName)), "UTF-8");
@@ -249,14 +184,11 @@ public class EncdecFileTest {
 		byte[] bytes = createBytes(value, size);
 		
 		String input ="";
-		for(int i = 0; i < bytes.length; i++){
+		for(int i = 0; i < bytes.length; i++)
 			input += (char)bytes[i];
-		}
 	        
-		
-		
 		ps.print(input);
-//		ps.print((byte)-1);
+		
 		return in;
 	}
 	
@@ -264,25 +196,37 @@ public class EncdecFileTest {
 		byte[] bytes = new byte[size];
 		for (int i=0; i<size; i++)
 			bytes[i]=(byte) value;
-		//bytes[size-1]=(byte)-1;//to properly simulate file that ends with EOF
+
 		return bytes;
 	}
 	
 	public void assertLog(Instant instant) throws Exception{
-		DateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		DateFormat sdf = new SimpleDateFormat("dd-M-yyyy");
 		String date = sdf.format(java.util.Date.from(instant));
-		String myData = "["+date+"] Operation succeded. Time elapsed: 1000000000"+String.format("%n");
+		String myData = "["+date+"] - Operation succeeded. Time elapsed: 1000000000"+String.format("%n");
 		
+		System.out.println("log     ="+readContent(logName));
+		System.out.println("my data ="+myData);
 		assertTrue(contentsEqual(myData, logName));
+		System.out.println("pass");
 	}
 	
 	
+	public void assertObserver(StateObserver observer){
+		
+		/*
+		System.out.println(observer.getPrevState());
+		System.out.println(observer.getCurState());
+		//assertTrue(observer.getPrevState()==State.DURING);
+		assertTrue(observer.getCurState()==State.AFTER);
+		*/
+	}
+
 	
 	@Test
 	//test the case where encryption == true
 	public void testEncdecFileStringArgsValid() throws Exception{
 		//resetFile(logName);
-		resetClockAndLog();
 		createTempFile(10, "source2");
 		createTempFile(77, "encrypted");
 		tempFolder.newFile("target2");
@@ -290,19 +234,23 @@ public class EncdecFileTest {
 		assertTrue(filesEqual(toFile("encrypted"), toFile("target2")));
 		assertLog(first);
 		
+		assertObserver(observer);
 		
 	}
+	
 	
 	@Test
 	//test the case where encryption == false
 	public void testEncdecFileStringArgsValid2() throws Exception{
-		resetClockAndLog();
+		//resetClockAndLog();
 		createTempFile(77, "source1");
 		createTempFile(10, "decrypted");
 		tempFolder.newFile("target1");
 		encdecFile.encdecFile(false, toFile("source1"), toFile("target1"));
 		assertTrue(filesEqual(toFile("decrypted"), toFile("target1")));
 		assertLog(first);
+		
+		assertObserver(observer);
 	}
 	
 	@Test
@@ -318,6 +266,7 @@ public class EncdecFileTest {
 		assertTrue(Arrays.equals(out.toByteArray(), createBytes(77, 3)));
 		assertTrue(in.available()==0);
 		
+		assertObserver(observer);
 	
 	}
 	
@@ -338,12 +287,11 @@ public class EncdecFileTest {
 	
 	@Test
 	public void testEncdecDIR() throws Exception{
-		//encryption==true
-		assertDir(true, true, "dir1", "file1","file2");
 		
-		//encryption==false
-		assertDir(true, false, "dir2", "file1","file2");
-	
+		assertDir(true,  true,  "dir1", "file1","file2");
+		assertDir(true,  false, "dir2", "file1","file2");
+		assertDir(false, true,  "dir3", "file1","file2");
+		assertDir(false, false, "dir4", "file1","file2");
 	}
 	
 

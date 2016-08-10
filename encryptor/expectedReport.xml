@@ -6,7 +6,7 @@
         <exceptionName>java.io.FileNotFoundException</exceptionName>
         <exceptionMessage>The required file was not found</exceptionMessage>
         <myStackTrace>
-            <stackTrace>encryptorTests.MarshallingTest.testReport(MarshallingTest.java:54)</stackTrace>
+            <stackTrace>encryptorTests.MarshallingTest.testReport(MarshallingTest.java:39)</stackTrace>
             <stackTrace>sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</stackTrace>
             <stackTrace>sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)</stackTrace>
             <stackTrace>sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</stackTrace>
@@ -32,12 +32,20 @@
             <stackTrace>org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)</stackTrace>
             <stackTrace>org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)</stackTrace>
             <stackTrace>org.junit.runners.ParentRunner.run(ParentRunner.java:363)</stackTrace>
-            <stackTrace>org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:86)</stackTrace>
-            <stackTrace>org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)</stackTrace>
-            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)</stackTrace>
-            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)</stackTrace>
-            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)</stackTrace>
-            <stackTrace>org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)</stackTrace>
+            <stackTrace>org.junit.runners.Suite.runChild(Suite.java:128)</stackTrace>
+            <stackTrace>org.junit.runners.Suite.runChild(Suite.java:27)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)</stackTrace>
+            <stackTrace>org.junit.runners.ParentRunner.run(ParentRunner.java:363)</stackTrace>
+            <stackTrace>org.junit.runner.JUnitCore.run(JUnitCore.java:137)</stackTrace>
+            <stackTrace>org.junit.runner.JUnitCore.run(JUnitCore.java:115)</stackTrace>
+            <stackTrace>org.junit.runner.JUnitCore.run(JUnitCore.java:105)</stackTrace>
+            <stackTrace>org.junit.runner.JUnitCore.runClasses(JUnitCore.java:62)</stackTrace>
+            <stackTrace>org.junit.runner.JUnitCore.runClasses(JUnitCore.java:49)</stackTrace>
+            <stackTrace>encryptorTests.TestRunner.main(TestRunner.java:8)</stackTrace>
         </myStackTrace>
     </report>
     <report xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="report">

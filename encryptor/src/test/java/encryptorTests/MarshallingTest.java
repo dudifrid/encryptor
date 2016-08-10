@@ -2,17 +2,9 @@ package encryptorTests;
 
 import static encryptor.Marshalling.*;
 import static encryptorTests.EncdecFileTest.*;
-
-import org.apache.logging.log4j.core.net.Facility;
-import org.junit.ClassRule;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
 import encryptor.Configuration;
-import encryptor.Enums;
 import encryptor.Report;
-import encryptor.ReportAbstract;
 import encryptor.Reports;
 import encryptor.Enums.Algo;
 import encryptor.Enums.Family;
@@ -20,20 +12,13 @@ import encryptor.Enums.Goal;
 import encryptor.Enums.Status;
 import encryptor.Enums.Sync;
 import encryptor.Enums.Type;
-
 import static junit.framework.Assert.*;
-
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOError;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Scanner;
+
 
 public class MarshallingTest {
 	
-	//@ClassRule
-	//private static TemporaryFolder tempFolder = new TemporaryFolder();
 
 	@Test
 	public void testMarhsall() throws Exception{
@@ -52,14 +37,7 @@ public class MarshallingTest {
 		
 		
 		Exception exception = new FileNotFoundException("The required file was not found");
-		/*
-		Exception exception=null;
-		try{
-			new Scanner(new File(".\\adfdf")) ;
-		}
-		catch(Exception e){
-			exception=e;
-		}*/
+		
 
 		report1.setAll("file1", Status.FAILURE, null, exception.getClass().getName(), exception.getMessage(), exception.getStackTrace());
 		report2.setAll("file2", Status.SUCCESS, (long)23298, null, null, null);
@@ -76,8 +54,6 @@ public class MarshallingTest {
 		String expected = ".\\expectedReport.xml";
 		
 		report(actual,reports);
-		
-		//File file = tempFolder.newFile("expected.xml");
 		
 		
 		assertTrue(filesEqual(actual,expected));
@@ -96,7 +72,7 @@ public class MarshallingTest {
 	
 	@Test
 	public void testExportXML(){
-		Configuration config = new Configuration(Goal.DECRYPTION, Sync.SYNC, Type.DIR, Family.DOUBLE, Algo.CAESAR, Algo.XOR);
+		Configuration config = new Configuration(Goal.DECRYPTION, Type.DIR, Sync.SYNC, Family.DOUBLE, Algo.CAESAR, Algo.XOR);
 		String actual = ".\\actualConfig.xml";
 		String expected = ".\\expectedConfig.xml";
 		exportXML(actual, config);

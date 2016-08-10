@@ -1,9 +1,10 @@
 package encryptor;
 
-import lombok.Data;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@Data public class SplitEncdec <S extends Encdec, T extends Encdec> extends Encdec{
+@RequiredArgsConstructor
+public class SplitEncdec <S extends Encdec, T extends Encdec> extends Encdec{
 	
 	@NonNull private S s;
 	@NonNull private T t;

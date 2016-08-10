@@ -1,12 +1,13 @@
 package encryptor;
 
-import lombok.Data;
+
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
-@Data public class ReverseEncdec <T extends Encdec> extends Encdec{
+@AllArgsConstructor
+public class ReverseEncdec <T extends Encdec> extends Encdec{
 	
 	@NonNull private T t;
-	@NonNull private T s;
 	
 	
 	@Override
