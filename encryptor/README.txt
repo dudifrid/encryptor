@@ -1,3 +1,8 @@
+To run the program, you should run the class Main.
+
+The program contains a lot of menus. To choose an option from the menu, you should input the serial number of this
+option (written in its left).
+
 The testers are run using TestRunner (this class contains a main method that should be run as usual).
 Running the testers and\or the suite (JunitTestSuite) by themselves may lead to a failure test.
 The failure occurs when running the class MarshallingTest is run not via TestRunner, since it consists 
@@ -12,14 +17,10 @@ The required JARs are attached in a dedicated directory in the project.
 
 The main function extensively exploit the benefits of Java Reflection, and thus makes the code simple and concise.
 
-Encdec is a class, but behaves like an abstract class that contains the very basic methods of encryption and decryption
-of bytes (hereinafter, enc and dec, respectively).
+Encdec (from: "encryption-decryption") is a class that contains the very basic methods of encryption and decryption of bytes, to be overriden and mocked by
+other classes.
 
-These methods are implemented (or, more precisely, overriden) by the classes CaesarEncdec, XorEncdec, and MultEncdec.
-
-The reason why I decided not to make the class Encdec abstract is for testability reasons:
-When I test the class EncdecFile, that will be discussed in detail below, I want some abstraction that enables me
-to call the methods enc and dec and mock them, whenever they implement XOR or Mult or Caesar Encdec.
+These methods are implemented overriden by the classes CaesarEncdec, XorEncdec, and MultEncdec.
 
 The classes SimpleEncdec, DoubleEncdec, ReverseEncdec, SplitEncdec are powrefull encdec algorithm that are based
 upon the algorithms above.
@@ -37,6 +38,10 @@ Observers are instances of classes that extends the class StateObserver.
 When encdec is performed on a file, it notifies the observers.
 
 Also, encdecing a file is logged in the file "report.log".
+
+Also, in encdecing a directory, a report which files were encdeced successfully, and which not, is written in a file "report.xml"
+
+Note: Do not confuse between "report.log" and "report.xml".
 
 ****
 
